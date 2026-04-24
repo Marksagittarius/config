@@ -152,3 +152,25 @@ export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
 export PATH="/opt/homebrew/opt/git/bin:/opt/homebrew/opt/curl/bin:$PATH"
 export PATH="/opt/homebrew/Cellar/node/24.10.0_1/bin:$PATH"
+
+if [[ -n "${GHOSTTY_RESOURCES_DIR:-}" ]]; then
+    ghostty_set_title() {
+        local dir="${PWD/#$HOME/~}"
+        printf '\033]2;%s\033\\' "$dir"
+    }
+
+    autoload -Uz add-zsh-hook
+    add-zsh-hook chpwd ghostty_set_title
+    add-zsh-hook precmd ghostty_set_title
+    add-zsh-hook preexec ghostty_set_title
+    ghostty_set_title
+fi
+
+function y() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+}
