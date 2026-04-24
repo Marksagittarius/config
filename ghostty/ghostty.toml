@@ -4,7 +4,7 @@ font-size = 15
 font-style = Bold
 font-thicken = true
 # 如果之前 adjust-height 报错，这里直接设为 0 或删除，依靠 padding 撑开
-adjust-cell-height = 5
+adjust-cell-height = 2
 
 # --- 2. 窗口与透明磨砂 ---
 background-opacity = 0.75
