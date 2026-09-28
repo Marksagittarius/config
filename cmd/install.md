@@ -46,3 +46,31 @@ brew install --cask \
 ```sh
 brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide
 ```
+
+## 新增工具
+
+```sh
+# 系统监控 / 终端复用
+brew install btop bottom cmux
+
+# 文件 / 命令增强
+brew install bat eza vivid lazygit neofetch
+
+# 编辑器
+brew install neovim
+# Zed (GUI, 可选)
+brew install --cask zed
+```
+
+## 配置部署
+
+- `nvim/` → `~/.config/nvim/`（需 clone everforest 插件，见 `nvim/install.md`）
+- `ghostty/` → `~/.config/ghostty/`
+- `starship/` → `~/.config/starship.toml`
+- `tmux/` → `~/.tmux.conf`（需 TPM）
+- `aerospace/` → `~/.aerospace.toml`
+- `yazi/` → `~/.config/yazi/`
+- `zsh/` → `~/.zshrc`
+- `btm/ btop/ cmux/ bat/ eza/ vivid/ lazygit/ neofetch/ opencode/` → `~/.config/<name>/`
+- `zed/` → `~/.config/zed/`
+- `vscode/` → VSCode 用户 settings.json

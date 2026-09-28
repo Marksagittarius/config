@@ -1,0 +1,49 @@
+# bottom (btm) — Everforest Dark 配色
+# bottom 的样式系统使用命名颜色（映射到终端调色板，不支持任意 hex）。
+# 语义映射到 everforest dark 调色板：
+#   green/light green  → everforest green  #A7C080
+#   blue/light blue    → everforest blue   #7FBBB3
+#   cyan/light cyan    → everforest cyan   #83C092
+#   red/light red      → everforest red    #E67E80
+#   yellow/light yellow→ everforest yellow #DBBC7F
+#   magenta/light mag. → everforest purple #D699B6
+#   gray           → everforest gray   #859289
+# 文本前景沿用终端前景（everforest fg #D3C6AA）。
+
+[styles.cpu]
+all_entry_color = "light green"
+avg_entry_color = "light yellow"
+cpu_core_colors = ["light cyan", "light green", "light blue", "light magenta", "yellow", "cyan", "green", "blue"]
+
+[styles.memory]
+ram_color = "light green"
+cache_color = "light blue"
+swap_color = "light yellow"
+arc_color = "light cyan"
+gpu_colors = ["light blue", "light red", "light magenta", "light green", "cyan", "green"]
+
+[styles.network]
+rx_color = "light blue"
+tx_color = "light magenta"
+rx_total_color = "light cyan"
+tx_total_color = "light green"
+
+[styles.battery]
+high_battery_color = "green"
+medium_battery_color = "yellow"
+low_battery_color = "red"
+
+[styles.tables]
+headers = {color = "light blue", bold = true}
+
+[styles.graphs]
+graph_color = "light green"
+legend_text = {color = "#859289"}
+
+[styles.widgets]
+border_color = "gray"
+selected_border_color = "light blue"
+widget_title = {color = "#859289"}
+text = {color = "#859289"}
+selected_text = {color = "black", bg_color = "light blue"}
+disabled_text = {color = "dark gray"}

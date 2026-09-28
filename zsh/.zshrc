@@ -16,7 +16,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 
-ZSH_THEME="robbyrussell"
+# 提示符由 Starship 提供（Catppuccin Mocha），故关闭 oh-my-zsh 自带主题
+ZSH_THEME=""
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -85,7 +86,7 @@ plugins=(
 	fzf
 )
 
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#6a687a"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#7a8478"
 
 
 source $ZSH/oh-my-zsh.sh
@@ -129,7 +130,32 @@ PATH=$PATH:$JAVA_HOME/bin
 export PATH
 export CLASS_PATH
 
-export PATH="/opt/homebrew/opt/libressl/bin:$PATH" export PATH="/opt/homebrew/opt/libressl/bin:$PATH"
+GRADLE_USER_HOME="$HOME/.gradle"
+export GRADLE_USER_HOME
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$($HOME/anaconda3/bin/conda 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "$HOME/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="$HOME/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
 export PATH="/opt/homebrew/opt/libressl/bin:$PATH"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
@@ -174,3 +200,65 @@ function y() {
     fi
     rm -f -- "$tmp"
 }
+
+# Cangjie
+source "$HOME/Documents/cangjie/envsetup.sh"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Hermes Agent / cua-driver-rs — ensure ~/.local/bin is on PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# ── fzf: Catppuccin Mocha ──────────────────────────────
+export FZF_DEFAULT_OPTS=" \
+  --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+  --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+  --color=border:#45475a,label:#cdd6f4,query:#f5c2e7 \
+  --preview-window='border-left'"
+
+# ── LS_COLORS: Catppuccin Mocha (vivid; 供 lsd / GNU ls / 补全菜单使用) ──
+if [ -r "$HOME/.config/vivid/ls_colors_mocha" ]; then
+  export LS_COLORS="$(<"$HOME/.config/vivid/ls_colors_mocha")"
+fi
+# 注意：新版 eza 也会读 LS_COLORS，会覆盖其 theme.yml 的文件类型配色。
+# 这里包一层：运行 eza 时临时屏蔽 LS_COLORS，让它专走 ~/.config/eza/theme.yml
+# （theme.yml 是更精细的官方 Mocha 配色），lsd 则继续用上面的 LS_COLORS。
+eza() { (unset LS_COLORS; command eza "$@") }
+
+# ── Rust / Cargo 工具链 (rustup, Homebrew 安装) ──
+# Homebrew 的 rustup 是 keg-only（与 rust 冲突），编译器代理在 opt/rustup/bin。
+# 放在 ~/.cargo/bin 之前，使 rustc/cargo/rustfmt/clippy/rust-analyzer 走 rustup 管理。
+export PATH="$HOME/.cargo/bin:/opt/homebrew/opt/rustup/bin:$PATH"
+
+# ── Everforest Dark 高亮（zsh-syntax-highlighting / autosuggestions）──
+# 与 starship / ghostty / tmux / nvim 统一 everforest 色板
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#7a8478"
+
+ZSH_HIGHLIGHT_STYLES[default]=fg=#d3c6aa
+ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=#e67e80,bold
+ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=#d699b6
+ZSH_HIGHLIGHT_STYLES[alias]=fg=#a7c080
+ZSH_HIGHLIGHT_STYLES[builtin]=fg=#7fbbb3
+ZSH_HIGHLIGHT_STYLES[function]=fg=#a7c080
+ZSH_HIGHLIGHT_STYLES[command]=fg=#7fbbb3
+ZSH_HIGHLIGHT_STYLES[precommand]=fg=#e69875,underline
+ZSH_HIGHLIGHT_STYLES[commandseparator]=fg=#d699b6
+ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=#7fbbb3
+ZSH_HIGHLIGHT_STYLES[path]=fg=#83c092,underline
+ZSH_HIGHLIGHT_STYLES[path_pathseparator]=fg=#83c092
+ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]=fg=#83c092
+ZSH_HIGHLIGHT_STYLES[globbing]=fg=#d699b6
+ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=#d699b6
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=#dbbc7f
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=#dbbc7f
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=#d3c6aa
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=#dbbc7f
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=#dbbc7f
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=#e69875
+ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=#e69875
+ZSH_HIGHLIGHT_STYLES[assign]=fg=#dbbc7f
+ZSH_HIGHLIGHT_STYLES[comment]=fg=#7a8478,italic
+ZSH_HIGHLIGHT_STYLES[autodirectory]=fg=#83c092,underline

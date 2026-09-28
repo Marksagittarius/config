@@ -1,0 +1,100 @@
+-- 极客启动屏：渐变 ASCII Logo + 最近文件 + 随机极客格言
+-- 覆盖 snacks.dashboard（LazyVim 默认启动屏），全部扁平无粗体。
+
+local quotes = {
+  { "Talk is cheap. Show me the code.", "— Linus Torvalds" },
+  { "There are only 10 kinds of people: those who understand binary and those who don't.", "" },
+  { "It works on my machine.", "— every developer, ever" },
+  { "Real programmers count from 0.", "" },
+  { "If it ain't broke, refactor it until it is.", "" },
+  { "There's no place like 127.0.0.1", "" },
+  { "Software is like sex: it's better when it's free.", "— Linus Torvalds" },
+  { "I don't always test my code, but when I do I do it in production.", "" },
+  { "Never trust a computer you can't throw out a window.", "— Steve Wozniak" },
+  { "while (!dead) { learn(); build(); ship(); }", "" },
+  { "First, solve the problem. Then, write the code.", "— John Johnson" },
+  { "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.", "— Martin Fowler" },
+  { "Programs must be written for people to read, and only incidentally for machines to execute.", "— Harold Abelson" },
+  { "Premature optimization is the root of all evil.", "— Donald Knuth" },
+  { "The best error message is the one that never shows up.", "— Thomas Fuchs" },
+  { "Code is like humor. When you have to explain it, it's bad.", "— Cory House" },
+  { "A language that doesn't affect the way you think about programming is not worth knowing.", "— Alan Perlis" },
+  { "rm -rf / is the 'hold my beer' of the command line.", "" },
+  { "There are 2 hard problems in CS: cache invalidation, naming things, and off-by-one errors.", "" },
+  { "Weeks of coding can save you hours of planning.", "" },
+  { "Stack Overflow: where we copy code we don't understand from people we don't know.", "" },
+  { "My code doesn't work... I have no idea why. My code works... I have no idea why.", "" },
+  { "sudo make me a sandwich.", "" },
+  { "The cloud is just someone else's computer.", "" },
+  { "It's not a bug; it's an undocumented feature.", "" },
+  { "git push --force: because sharing is caring, but overwriting is fun.", "" },
+  { "vim: it's hard to quit, but impossible to leave.", "" },
+  { "In case of fire: git commit, git push, leave building.", "" },
+  { "I would love to change the world, but they won't give me the source code.", "" },
+}
+
+-- NEOVIM · ANSI Shadow（约 52 列宽）
+local logo = {
+  [[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗]],
+  [[ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║]],
+  [[ ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║]],
+  [[ ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║]],
+  [[ ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║]],
+  [[ ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝]],
+}
+
+-- catppuccin mocha 渐变色：粉 → 红 → 桃 → 黄 → 绿 → 蓝（逐行过渡）
+local logo_colors = {
+  "#f5c2e7", -- pink
+  "#f38ba8", -- red
+  "#fab387", -- peach
+  "#f9e2af", -- yellow
+  "#a6e3a1", -- green
+  "#89b4fa", -- blue
+}
+
+return {
+  {
+    "folke/snacks.nvim",
+    opts = function(_, opts)
+      -- 定义逐行渐变高亮组
+      for i, color in ipairs(logo_colors) do
+        vim.api.nvim_set_hl(0, ("DashLogo%d"):format(i), { fg = color, bg = "NONE" })
+      end
+
+      opts.dashboard = vim.tbl_deep_extend("force", opts.dashboard or {}, {
+        -- 让 header 字段返回一组逐行着色的 Text（实现渐变）
+        formats = {
+          header = function()
+            local lines = {}
+            for i, l in ipairs(logo) do
+              lines[i] = { l, hl = ("DashLogo%d"):format(i), align = "center" }
+            end
+            return lines
+          end,
+        },
+        sections = {
+          { section = "header", padding = 1 },
+          {
+            section = "terminal",
+            cmd = "nvim --version | head -1 | sed 's/^/  /'",
+            hl = "SnacksDashboardSpecial",
+            height = 1,
+            padding = 1,
+          },
+          { section = "keys", gap = 1, padding = 1 },
+          { icon = "   ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+          { icon = "    ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+          { section = "startup" },
+          function()
+            local q = quotes[math.random(#quotes)]
+            return {
+              { text = { { "“" .. q[1] .. "”", hl = "SnacksDashboardFooter" } }, align = "center", padding = 1 },
+              q[2] ~= "" and { text = { { q[2], hl = "SnacksDashboardSpecial" } }, align = "center" } or nil,
+            }
+          end,
+        },
+      })
+    end,
+  },
+}

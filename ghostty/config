@@ -1,0 +1,56 @@
+# ============================================
+# Ghostty - Everforest Dark + 磨砂玻璃
+# ============================================
+
+# --- 1. 字体排版 ---
+font-family = "Maple Mono NF CN"
+font-size = 15
+font-style = Bold
+font-thicken = true
+adjust-cell-height = 2
+
+# --- 2. 窗口与透明磨砂（增强玻璃质感）---
+# 更低透明度 + 更大的背景模糊半径 = 更强的毛玻璃效果
+background-opacity = 0.72
+background-blur-radius = 30
+macos-titlebar-style = hidden
+window-padding-x = 15
+window-padding-y = 12
+
+# --- 3. 光标与鼠标 ---
+cursor-style = block
+cursor-color = d3c6aa
+mouse-hide-while-typing = true
+copy-on-select = clipboard
+
+# --- 4. Everforest Dark 配色 ---
+background = 2d353b
+foreground = d3c6aa
+cursor-color = d3c6aa
+selection-background = 475258
+selection-foreground = d3c6aa
+
+palette = 0=343f44
+palette = 1=e67e80
+palette = 2=a7c080
+palette = 3=dbbc7f
+palette = 4=7fbbb3
+palette = 5=d699b6
+palette = 6=83c092
+palette = 7=d3c6aa
+palette = 8=859289
+palette = 9=e67e80
+palette = 10=a7c080
+palette = 11=dbbc7f
+palette = 12=7fbbb3
+palette = 13=d699b6
+palette = 14=83c092
+palette = 15=e5d9b5
+
+# --- 5. 快捷键 ---
+keybind = cmd+t=new_tab
+keybind = cmd+w=close_surface
+keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+keybind = cmd+shift+comma=reload_config

@@ -1,0 +1,18 @@
+# ╭──────────────────────────────────────────────────────────────────╮
+# │ Yazi 主题 — Everforest Dark / Light                               │
+# │ 手动安装的本地 flavor（yazi-rs/flavors 官方仓库无 everforest）：  │
+# │   ~/.config/yazi/flavors/everforest-dark.yazi                     │
+# │   ~/.config/yazi/flavors/everforest-light.yazi                    │
+# │ 由 catppuccin flavor 模板按 everforest 官方色板批量映射生成。     │
+# ╰──────────────────────────────────────────────────────────────────╯
+
+# 本文件只保留 [flavor] 与少量覆盖项；其余配色 / 图标 / 状态栏都来自 flavor 自带 flavor.toml。
+[flavor]
+dark = "everforest-dark"   # 跟随终端深色模式
+light = "everforest-light" # 跟随终端浅色模式
+
+# ── 覆盖项（在 flavor 基础上追加）──────────────────────────────────────
+[mgr]
+# 代码预览语法高亮：显式指向 everforest-dark flavor 的 tmTheme，
+# 保证文本/代码预览窗内也是 everforest 配色（与 nvim treesitter 观感统一）。
+syntect_theme = "flavors/everforest-dark.yazi/tmtheme.xml"
